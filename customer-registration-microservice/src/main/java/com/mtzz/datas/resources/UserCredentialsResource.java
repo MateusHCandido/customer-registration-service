@@ -4,6 +4,7 @@ import com.mtzz.datas.dto.UserCredentialsRequest;
 import com.mtzz.services.UserCredentialsService;
 import com.mtzz.services.exceptions.ExistingUsernameException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 @RequestMapping(path = "/api/users")
 public class UserCredentialsResource
 {
+    @Autowired
     private final UserCredentialsService userCredentialsService;
 
 
