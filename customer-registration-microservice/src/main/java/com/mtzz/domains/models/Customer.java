@@ -16,20 +16,21 @@ import java.time.LocalDate;
 public class Customer
 {
     @Id
+    @Column(name = "customer_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
 
-    @Column(nullable = false, length = 150)
-    @NotEmpty(message = "{mandatory.name.field}")
+    @NotEmpty(message = "the customer name field is mandatory")
+    @Column(name = "customer_name", nullable = false, length = 150)
     private String customerName;
 
     @Column(nullable = false, length = 11)
-    @NotNull(message = "{mandatory.cpf.field}")
-    @CPF(message = "{invalid.cpf.field}")
+    @NotNull(message = "the customer cpf is mandatory")
+    @CPF(message = "the customer cpf is invalid. verify field and try again")
     private String cpf;
 
-    @Column(name = "registration_date", updatable = false)
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "registration_date", updatable = false)
     private LocalDate registrationDate;
 
 
