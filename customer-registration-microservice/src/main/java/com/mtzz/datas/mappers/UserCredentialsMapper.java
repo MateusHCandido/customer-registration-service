@@ -17,7 +17,7 @@ public class UserCredentialsMapper
         return userCredentials;
     }
 
-    public static UserCredentialsResponse ResponseOf(UserCredentials userCredentials)
+    public static UserCredentialsResponse responseOf(UserCredentials userCredentials)
     {
         UserCredentialsResponse userCredentialsResponse = new UserCredentialsResponse();
 
