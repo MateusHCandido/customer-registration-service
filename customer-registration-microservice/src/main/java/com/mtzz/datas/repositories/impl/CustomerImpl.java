@@ -3,9 +3,9 @@ package com.mtzz.datas.repositories.impl;
 import com.mtzz.domains.models.Customer;
 import com.mtzz.domains.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-@Repository
+@Service
 public class CustomerImpl
 {
     @Autowired
@@ -20,11 +20,6 @@ public class CustomerImpl
     public Customer findById(Long customerId)
     {
         return customerRepository.findById(customerId).get();
-    }
-
-    public void updateCustomerData(Customer customer)
-    {
-        customerRepository.save(customer);
     }
 
     public void deleteCustomerDate(Customer customer)

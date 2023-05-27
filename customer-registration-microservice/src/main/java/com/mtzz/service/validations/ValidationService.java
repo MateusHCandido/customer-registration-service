@@ -1,4 +1,4 @@
-package com.mtzz.services.validations;
+package com.mtzz.service.validations;
 
 import com.mtzz.datas.repositories.impl.UserCredentialsImpl;
 import com.mtzz.services.exceptions.CredentialsContainsBackSpacesException;

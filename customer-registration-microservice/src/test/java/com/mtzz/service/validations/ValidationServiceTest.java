@@ -1,8 +1,9 @@
-package com.mtzz.services.validations;
+package com.mtzz.service.validations;
 
 
 import com.mtzz.datas.repositories.impl.UserCredentialsImpl;
 import com.mtzz.domains.models.UserCredentials;
+import com.mtzz.domains.repositories.CustomerRepository;
 import com.mtzz.domains.repositories.UserCredentialsRepository;
 import com.mtzz.services.exceptions.CredentialsContainsBackSpacesException;
 import com.mtzz.services.exceptions.ExistingUsernameException;
@@ -42,9 +43,6 @@ public class ValidationServiceTest extends ValidationService
 
     @MockBean
     private UserCredentialsImpl userCredentialsImpl;
-
-    @MockBean
-    private UserCredentialsRepository userCredentialsRepository;
 
 
     @Test
