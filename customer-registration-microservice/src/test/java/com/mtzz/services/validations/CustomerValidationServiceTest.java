@@ -1,0 +1,135 @@
+package com.mtzz.services.validations;
+
+import com.mtzz.datas.repositories.impl.CustomerImpl;
+import com.mtzz.datas.repositories.impl.UserCredentialsImpl;
+import com.mtzz.domains.models.Customer;
+import com.mtzz.domains.repositories.CustomerRepository;
+import com.mtzz.services.exceptions.CPFAlreadyRegisteredException;
+import com.mtzz.services.exceptions.InvalidNumberCountException;
+import com.mtzz.services.exceptions.RepeatedNumberException;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.time.LocalDate;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+
+@RunWith(SpringRunner.class)
+public class CustomerValidationServiceTest extends CustomerValidationService
+{
+    @TestConfiguration
+    static class CustomerValidationServiceTestConfiguration
+    {
+        @Bean
+        public CustomerValidationService customerValidationService()
+        {
+            return new CustomerValidationService();
+        }
+    }
+
+    @Autowired
+    private CustomerValidationService customerValidationService;
+
+    @MockBean
+    private CustomerRepository customerRepository;
+
+    @MockBean
+    private CustomerImpl customerImpl;
+
+    @MockBean
+    private UserCredentialsImpl userCredentialsImpl;
+
+
+    @Test
+    public void shouldReturnTrueWhenItDoesNotFindACPFOccurrenceInDB()
+    {
+        String cpf = "123.456.789-10";
+
+        boolean occurrenceOfCPF = hasNoOccurrenceOf(cpf);
+
+        assertTrue(occurrenceOfCPF);
+    }
+
+    @Test(expected = CPFAlreadyRegisteredException.class)
+    public void shouldReturnExceptionWhenItFindACPFOccurrenceInDB()
+    {
+        Customer customer = new Customer(1L, "Mateus Test", "123.456.789-10", LocalDate.now());
+        String customerCPF = "123.456.789-10";
+        customerRepository.save(customer);
+
+        when(customerImpl.existsByCpf(customerCPF)).thenReturn(true);
+
+        boolean occurrenceOfCPF = hasNoOccurrenceOf(customerCPF);
+    }
+
+    @Test
+    public void shouldReturnTrueForValidCpf()
+    {
+        String validFormattedCpf = "123.456.789-09";
+        String validUnformattedCpf = "12345678900";
+
+        assertTrue(validateCpfNumbers(validFormattedCpf));
+        assertTrue(validateCpfNumbers(validUnformattedCpf));
+    }
+
+    @Test(expected = RepeatedNumberException.class)
+    public void shouldReturnExceptionWhenFormattedCpfHasRepeatedNumbers()
+    {
+        String invalidFormattedCpf = "111.111.111-11";
+
+        validateCpfNumbers(invalidFormattedCpf);
+    }
+
+    @Test(expected = RepeatedNumberException.class)
+    public void shouldReturnExceptionWhenNotFormattedCpfHasRepeatedNumbers()
+    {
+        String invalidUnformattedCpf = "00000000000";
+
+        validateCpfNumbers(invalidUnformattedCpf);
+    }
+
+    @Test(expected = InvalidNumberCountException.class)
+    public void shouldReturnExceptionWhenCpfFormatIsCheckedAndNotContainElevenDigits()
+    {
+        String invalidFormattedCpf = "123.456.789";
+
+        validateCpfNumbers(invalidFormattedCpf);
+    }
+
+    @Test(expected = InvalidNumberCountException.class)
+    public void shouldReturnExceptionWhenUnformattedCpfIsCheckedAndNotContainElevenDigits()
+    {
+        String invalidUnformattedCpf = "1230256265";
+
+        validateCpfNumbers(invalidUnformattedCpf);
+    }
+
+    @Test
+    public void shouldFormatCpfAccordingToRegistrationStandard()
+    {
+        boolean correctPositionInFormatting = false;
+        String validUnformattedCpf = "12345678900";
+        String validFormattedCpf = "123.456.789-00";
+
+        String formattedCpf = formatCpfNumber(validUnformattedCpf);
+
+        char firstPoint = formattedCpf.charAt(3);
+        char secondPoint = formattedCpf.charAt(7);
+        char hyphen = formattedCpf.charAt(11);
+
+        if(firstPoint == '.' && secondPoint == '.' && hyphen == '-')
+        {
+            correctPositionInFormatting = true;
+        }
+
+        assertEquals(validFormattedCpf, formattedCpf);
+        assertTrue(correctPositionInFormatting);
+    }
+}
