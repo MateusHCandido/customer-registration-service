@@ -1,5 +1,6 @@
 package com.mtzz.datas.repositories.impl;
 
+import com.mtzz.datas.exceptions.CustomerNotFoundException;
 import com.mtzz.domains.models.Customer;
 import com.mtzz.domains.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,9 @@ public class CustomerImpl
 
     public Customer findById(Long customerId)
     {
-        return customerRepository.findById(customerId).get();
+        return customerRepository
+                .findById(customerId)
+                .orElseThrow(() -> new CustomerNotFoundException(customerId));
     }
 
     public void deleteCustomerDate(Customer customer)

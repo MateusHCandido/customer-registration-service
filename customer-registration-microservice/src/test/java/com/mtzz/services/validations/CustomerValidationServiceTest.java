@@ -7,6 +7,7 @@ import com.mtzz.domains.repositories.CustomerRepository;
 import com.mtzz.services.exceptions.CPFAlreadyRegisteredException;
 import com.mtzz.services.exceptions.InvalidNumberCountException;
 import com.mtzz.services.exceptions.RepeatedNumberException;
+import com.mtzz.services.exceptions.SpecialCharactersOrNumbersException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -112,24 +112,28 @@ public class CustomerValidationServiceTest extends CustomerValidationService
     }
 
     @Test
-    public void shouldFormatCpfAccordingToRegistrationStandard()
+    public void shouldReturnFalseWhenItHasNoSpecialCharactersInName()
     {
-        boolean correctPositionInFormatting = false;
-        String validUnformattedCpf = "12345678900";
-        String validFormattedCpf = "123.456.789-00";
+        String name = "Mateus Test Testando";
 
-        String formattedCpf = formatCpfNumber(validUnformattedCpf);
+        boolean nameValidation = checkOnlyExistenceOfLettersIn(name);
 
-        char firstPoint = formattedCpf.charAt(3);
-        char secondPoint = formattedCpf.charAt(7);
-        char hyphen = formattedCpf.charAt(11);
+        assertFalse(nameValidation);
+    }
 
-        if(firstPoint == '.' && secondPoint == '.' && hyphen == '-')
-        {
-            correctPositionInFormatting = true;
-        }
+    @Test(expected = SpecialCharactersOrNumbersException.class)
+    public void shouldThrowExceptionWhenHaveSpecialCharactersInName()
+    {
+        String name = "M@teus Test Testando";
 
-        assertEquals(validFormattedCpf, formattedCpf);
-        assertTrue(correctPositionInFormatting);
+        boolean nameValidation = checkOnlyExistenceOfLettersIn(name);
+    }
+
+    @Test(expected = SpecialCharactersOrNumbersException.class)
+    public void shouldThrowExceptionWhenItHasNumericalCharacters()
+    {
+        String name = "M4t3us T3st3";
+
+        boolean nameValidation = checkOnlyExistenceOfLettersIn(name);
     }
 }

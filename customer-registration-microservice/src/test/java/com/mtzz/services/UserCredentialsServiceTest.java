@@ -1,12 +1,9 @@
-package com.mtzz.service;
+package com.mtzz.services;
 
 import com.mtzz.datas.dto.UserCredentialsRequest;
 import com.mtzz.datas.repositories.impl.UserCredentialsImpl;
-import com.mtzz.services.UserCredentialsService;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;

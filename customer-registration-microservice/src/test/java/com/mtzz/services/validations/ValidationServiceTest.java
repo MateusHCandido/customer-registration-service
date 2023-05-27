@@ -1,10 +1,8 @@
-package com.mtzz.service.validations;
+package com.mtzz.services.validations;
 
 
 import com.mtzz.datas.repositories.impl.UserCredentialsImpl;
 import com.mtzz.domains.models.UserCredentials;
-import com.mtzz.domains.repositories.CustomerRepository;
-import com.mtzz.domains.repositories.UserCredentialsRepository;
 import com.mtzz.services.exceptions.CredentialsContainsBackSpacesException;
 import com.mtzz.services.exceptions.ExistingUsernameException;
 import org.junit.Assert;

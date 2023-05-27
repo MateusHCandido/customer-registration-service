@@ -4,6 +4,7 @@ import com.mtzz.datas.repositories.impl.CustomerImpl;
 import com.mtzz.services.exceptions.CPFAlreadyRegisteredException;
 import com.mtzz.services.exceptions.RepeatedNumberException;
 import com.mtzz.services.exceptions.InvalidNumberCountException;
+import com.mtzz.services.exceptions.SpecialCharactersOrNumbersException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,20 @@ public class CustomerValidationService
 {
 
     @Autowired
-    private CustomerImpl customerImpl;
+    private static CustomerImpl customerImpl;
 
+    public static boolean checkOnlyExistenceOfLettersIn(String name)
+    {
+        String specialCharacters = "^[a-zA-Z ]*$";
 
-    public boolean hasNoOccurrenceOf(String cpf)
+        if(name.matches(specialCharacters))
+        {
+            return false;
+        }
+        throw new SpecialCharactersOrNumbersException();
+    }
+
+    public static boolean hasNoOccurrenceOf(String cpf)
     {
         if(!customerImpl.existsByCpf(cpf))
         {
@@ -40,14 +51,4 @@ public class CustomerValidationService
         return true;
     }
 
-    public String formatCpfNumber(String cpfSent)
-    {
-        cpfSent = cpfSent.replaceAll("[^0-9]", "");
-
-        return String.format("%s%s%s.%s%s%s.%s%s%s-%s%s",
-                cpfSent.charAt(0), cpfSent.charAt(1), cpfSent.charAt(2),
-                cpfSent.charAt(3), cpfSent.charAt(4), cpfSent.charAt(5),
-                cpfSent.charAt(6), cpfSent.charAt(7), cpfSent.charAt(8),
-                cpfSent.charAt(9), cpfSent.charAt(10));
-    }
 }

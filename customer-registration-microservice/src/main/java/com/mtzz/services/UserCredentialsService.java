@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.mtzz.datas.mappers.UserCredentialsMapper.receiveFrom;
-import static com.mtzz.service.validations.ValidationService.hasNoWhitespaceIn;
+import static com.mtzz.services.validations.ValidationService.hasNoWhitespaceIn;
 
 
 @Service

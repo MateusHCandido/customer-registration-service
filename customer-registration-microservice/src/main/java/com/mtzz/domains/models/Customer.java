@@ -34,9 +34,4 @@ public class Customer
     private LocalDate registrationDate;
 
 
-    @PrePersist
-    public void prePersist()
-    {
-        setRegistrationDate(LocalDate.now());
-    }
 }

@@ -30,7 +30,7 @@ public class UserCredentialsMapperTest
     {
         UserCredentials userCredentials = new UserCredentials(1L, "mateuscds", "1231234");
 
-        UserCredentialsResponse userCredentialsResponse = UserCredentialsMapper.ResponseOf(userCredentials);
+        UserCredentialsResponse userCredentialsResponse = UserCredentialsMapper.responseOf(userCredentials);
 
 
         assertEquals(userCredentials.getUsername(), "mateuscds");
