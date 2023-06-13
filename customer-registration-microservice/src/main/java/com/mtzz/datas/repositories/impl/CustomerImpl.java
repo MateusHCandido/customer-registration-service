@@ -4,9 +4,10 @@ import com.mtzz.datas.exceptions.CustomerNotFoundException;
 import com.mtzz.domains.models.Customer;
 import com.mtzz.domains.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-@Service
+@Repository
 public class CustomerImpl
 {
     @Autowired
@@ -30,7 +31,7 @@ public class CustomerImpl
         customerRepository.delete(customer);
     }
 
-    public Boolean existsByCpf(String cpf)
+    public boolean existsByCpf(String cpf)
     {
         return customerRepository.existsByCpf(cpf);
     }
@@ -39,4 +40,5 @@ public class CustomerImpl
     {
         return customerRepository.findByCpf(cpf);
     }
+
 }

@@ -13,7 +13,8 @@ public class CustomerValidationService
 {
 
     @Autowired
-    private static CustomerImpl customerImpl;
+    private CustomerImpl customerImpl;
+
 
     public static boolean checkOnlyExistenceOfLettersIn(String name)
     {
@@ -26,7 +27,7 @@ public class CustomerValidationService
         throw new SpecialCharactersOrNumbersException();
     }
 
-    public static boolean hasNoOccurrenceOf(String cpf)
+    public boolean hasNoOccurrenceOf(String cpf)
     {
         if(!customerImpl.existsByCpf(cpf))
         {

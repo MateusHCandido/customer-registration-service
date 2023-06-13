@@ -64,6 +64,7 @@ public class CustomerValidationServiceTest extends CustomerValidationService
         String customerCPF = "123.456.789-10";
         customerRepository.save(customer);
 
+
         when(customerImpl.existsByCpf(customerCPF)).thenReturn(true);
 
         boolean occurrenceOfCPF = hasNoOccurrenceOf(customerCPF);
