@@ -9,6 +9,8 @@ import com.mtzz.services.validations.CustomerValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
+
 import static com.mtzz.services.validations.CustomerValidationService.*;
 
 
@@ -34,8 +36,7 @@ public class CustomerService
         {
             if(customerValidationService.hasNoOccurrenceOf(customerCpf) && validateCpfNumbers(customerCpf))
             {
-                customer = CustomerMapper.receiveFrom(customerRequest);
-                customerImpl.saveCustomer(customer);
+                customerImpl.saveCustomer(CustomerMapper.receiveFrom(customer, customerRequest));
             }
         }
     }
@@ -47,7 +48,7 @@ public class CustomerService
         return CustomerMapper.responseOf(customer);
     }
 
-    public CustomerResponse updateCustomerData(Long customerId, CustomerRequest customerRequest)
+    public void updateCustomerData(Long customerId, CustomerRequest customerRequest)
     {
         Customer customer = customerImpl.findById(customerId);
 
@@ -58,12 +59,9 @@ public class CustomerService
         {
             if(customerValidationService.hasNoOccurrenceOf(customerCpf) && validateCpfNumbers(customerCpf))
             {
-                customer = CustomerMapper.receiveFrom(customerRequest);
-                customerImpl.saveCustomer(customer);
+                customerImpl.saveCustomer(CustomerMapper.receiveFrom(customer, customerRequest));
             }
         }
-
-        return CustomerMapper.responseOf(customer);
     }
 
     public void deleteCustomer(Long customerId)

@@ -9,10 +9,8 @@ import static com.mtzz.services.utils.CPFUtil.formatCpfNumber;
 public class CustomerMapper
 {
 
-    public static Customer receiveFrom(CustomerRequest customerRequest)
+    public static Customer receiveFrom(Customer customer, CustomerRequest customerRequest)
     {
-        Customer customer = new Customer();
-
         String customerCpf = customerRequest.getCpf();
         customerCpf = formatCpfNumber(customerCpf);
 

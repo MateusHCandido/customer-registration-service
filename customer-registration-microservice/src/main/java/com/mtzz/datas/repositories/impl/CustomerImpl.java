@@ -5,7 +5,6 @@ import com.mtzz.domains.models.Customer;
 import com.mtzz.domains.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 @Repository
 public class CustomerImpl

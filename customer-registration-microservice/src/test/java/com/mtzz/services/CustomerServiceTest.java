@@ -2,7 +2,6 @@ package com.mtzz.services;
 
 import com.mtzz.datas.dto.CustomerRequest;
 import com.mtzz.datas.dto.CustomerResponse;
-import com.mtzz.datas.exceptions.CustomerNotFoundException;
 import com.mtzz.datas.mappers.CustomerMapper;
 import com.mtzz.datas.repositories.impl.CustomerImpl;
 import com.mtzz.domains.models.Customer;
@@ -11,7 +10,6 @@ import com.mtzz.services.exceptions.CPFAlreadyRegisteredException;
 import com.mtzz.services.exceptions.RepeatedNumberException;
 import com.mtzz.services.exceptions.SpecialCharactersOrNumbersException;
 import com.mtzz.services.validations.CustomerValidationService;
-import com.mtzz.services.validations.ValidationService;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -90,7 +88,7 @@ public class CustomerServiceTest
     @Test
     public void shouldUpdateCustomerData()
     {
-        String newCpf = "13232579810";
+        String newCpf = "132.325.798-10";
         String newName = "test test OK";
 
         Customer customer = new Customer(1L, "test", "123.456.789-10", LocalDate.now());
@@ -99,11 +97,13 @@ public class CustomerServiceTest
 
 
         when(customerImpl.findById(1L)).thenReturn(customer);
-        when(validationService.hasNoOccurrenceOf(newCpf)).thenReturn(true);
-        CustomerResponse customerUpdated = customerService.updateCustomerData(1L, customerRequest);
+        when(validationService.hasNoOccurrenceOf(newCpf)).thenReturn(false);
+        customerService.updateCustomerData(1L, customerRequest);
+
+        Customer customerUpdated = customerImpl.findById(1L);
 
         Assertions.assertEquals(customerUpdated.getCustomerName(), newName);
-        Assertions.assertEquals(customerUpdated.getCustomerCpf(), "132.***.***-**");
+        Assertions.assertEquals(customerUpdated.getCpf(), newCpf);
     }
 
     @Test(expected = SpecialCharactersOrNumbersException.class)
@@ -119,7 +119,7 @@ public class CustomerServiceTest
 
         when(customerImpl.findById(1L)).thenReturn(customer);
         when(validationService.hasNoOccurrenceOf(newCpf)).thenReturn(true);
-        CustomerResponse customerUpdated = customerService.updateCustomerData(1L, customerRequest);
+        customerService.updateCustomerData(1L, customerRequest);
     }
 
     @Test(expected = SpecialCharactersOrNumbersException.class)
@@ -135,7 +135,7 @@ public class CustomerServiceTest
 
         when(customerImpl.findById(1L)).thenReturn(customer);
         when(validationService.hasNoOccurrenceOf(newCpf)).thenReturn(true);
-        CustomerResponse customerUpdated = customerService.updateCustomerData(1L, customerRequest);
+        customerService.updateCustomerData(1L, customerRequest);
     }
 
     @Test(expected = CPFAlreadyRegisteredException.class)
@@ -151,7 +151,7 @@ public class CustomerServiceTest
 
         when(customerImpl.findById(1L)).thenReturn(customer);
         when(validationService.hasNoOccurrenceOf(newCpf)).thenThrow(CPFAlreadyRegisteredException.class);
-        CustomerResponse customerUpdated = customerService.updateCustomerData(1L, customerRequest);
+        customerService.updateCustomerData(1L, customerRequest);
     }
 
     @Test(expected = RepeatedNumberException.class)
@@ -165,8 +165,8 @@ public class CustomerServiceTest
         customerRepository.save(customer);
 
         when(customerImpl.findById(1L)).thenReturn(customer);
-        when(validationService.hasNoOccurrenceOf(newCpf)).thenReturn(true);
-        CustomerResponse customerUpdated = customerService.updateCustomerData(1L, customerRequest);
+        when(validationService.hasNoOccurrenceOf(newCpf)).thenReturn(false);
+        customerService.updateCustomerData(1L, customerRequest);
     }
 
 

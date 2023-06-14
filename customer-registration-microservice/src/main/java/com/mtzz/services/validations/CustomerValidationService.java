@@ -5,6 +5,7 @@ import com.mtzz.services.exceptions.CPFAlreadyRegisteredException;
 import com.mtzz.services.exceptions.RepeatedNumberException;
 import com.mtzz.services.exceptions.InvalidNumberCountException;
 import com.mtzz.services.exceptions.SpecialCharactersOrNumbersException;
+import com.mtzz.services.utils.CPFUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,8 @@ public class CustomerValidationService
 
     public boolean hasNoOccurrenceOf(String cpf)
     {
+        cpf = CPFUtil.formatCpfNumber(cpf);
+
         if(!customerImpl.existsByCpf(cpf))
         {
             return true;
@@ -48,7 +51,6 @@ public class CustomerValidationService
         {
             throw new RepeatedNumberException();
         }
-
         return true;
     }
 
