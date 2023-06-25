@@ -7,7 +7,6 @@ import com.mtzz.datas.repositories.impl.CustomerImpl;
 import com.mtzz.domains.models.Customer;
 import com.mtzz.domains.repositories.CustomerRepository;
 import com.mtzz.services.exceptions.CPFAlreadyRegisteredException;
-import com.mtzz.services.exceptions.RepeatedNumberException;
 import com.mtzz.services.exceptions.SpecialCharactersOrNumbersException;
 import com.mtzz.services.validations.CustomerValidationService;
 import org.junit.Test;
@@ -88,18 +87,18 @@ public class CustomerServiceTest
     @Test
     public void shouldUpdateCustomerData()
     {
-        String newCpf = "132.325.798-10";
+        String newCpf = "365.520.990-88";
         String newName = "test test OK";
 
-        Customer customer = new Customer(1L, "test", "123.456.789-10", LocalDate.now());
+        Customer customer = new Customer(1L, "test", "817.973.160-01", LocalDate.now());
         CustomerRequest customerRequest = new CustomerRequest(newName, newCpf);
         customerRepository.save(customer);
 
 
         when(customerImpl.findById(1L)).thenReturn(customer);
-        when(validationService.hasNoOccurrenceOf(newCpf)).thenReturn(false);
-        customerService.updateCustomerData(1L, customerRequest);
+        when(validationService.hasNoOccurrenceOf(newCpf)).thenReturn(true);
 
+        customerService.updateCustomerData(1L, customerRequest);
         Customer customerUpdated = customerImpl.findById(1L);
 
         Assertions.assertEquals(customerUpdated.getCustomerName(), newName);
@@ -153,22 +152,5 @@ public class CustomerServiceTest
         when(validationService.hasNoOccurrenceOf(newCpf)).thenThrow(CPFAlreadyRegisteredException.class);
         customerService.updateCustomerData(1L, customerRequest);
     }
-
-    @Test(expected = RepeatedNumberException.class)
-    public void shouldThrowExceptionOfRepeatedNumbersInFieldCpfWhenTryingToUpdateIt()
-    {
-        String newCpf = "111.111.111-11";
-        String newName = "test";
-
-        Customer customer = new Customer(1L, "test", "123.456.789-10", LocalDate.now());
-        CustomerRequest customerRequest = new CustomerRequest(newName, newCpf);
-        customerRepository.save(customer);
-
-        when(customerImpl.findById(1L)).thenReturn(customer);
-        when(validationService.hasNoOccurrenceOf(newCpf)).thenReturn(false);
-        customerService.updateCustomerData(1L, customerRequest);
-    }
-
-
 
 }

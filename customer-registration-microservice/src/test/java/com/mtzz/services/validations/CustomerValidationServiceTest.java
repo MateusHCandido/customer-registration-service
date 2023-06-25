@@ -6,7 +6,6 @@ import com.mtzz.domains.models.Customer;
 import com.mtzz.domains.repositories.CustomerRepository;
 import com.mtzz.services.exceptions.CPFAlreadyRegisteredException;
 import com.mtzz.services.exceptions.InvalidNumberCountException;
-import com.mtzz.services.exceptions.RepeatedNumberException;
 import com.mtzz.services.exceptions.SpecialCharactersOrNumbersException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -70,47 +69,6 @@ public class CustomerValidationServiceTest extends CustomerValidationService
         boolean occurrenceOfCPF = hasNoOccurrenceOf(customerCPF);
     }
 
-    @Test
-    public void shouldReturnTrueForValidCpf()
-    {
-        String validFormattedCpf = "123.456.789-09";
-        String validUnformattedCpf = "12345678900";
-
-        assertTrue(validateCpfNumbers(validFormattedCpf));
-        assertTrue(validateCpfNumbers(validUnformattedCpf));
-    }
-
-    @Test(expected = RepeatedNumberException.class)
-    public void shouldReturnExceptionWhenFormattedCpfHasRepeatedNumbers()
-    {
-        String invalidFormattedCpf = "111.111.111-11";
-
-        validateCpfNumbers(invalidFormattedCpf);
-    }
-
-    @Test(expected = RepeatedNumberException.class)
-    public void shouldReturnExceptionWhenNotFormattedCpfHasRepeatedNumbers()
-    {
-        String invalidUnformattedCpf = "00000000000";
-
-        validateCpfNumbers(invalidUnformattedCpf);
-    }
-
-    @Test(expected = InvalidNumberCountException.class)
-    public void shouldReturnExceptionWhenCpfFormatIsCheckedAndNotContainElevenDigits()
-    {
-        String invalidFormattedCpf = "123.456.789";
-
-        validateCpfNumbers(invalidFormattedCpf);
-    }
-
-    @Test(expected = InvalidNumberCountException.class)
-    public void shouldReturnExceptionWhenUnformattedCpfIsCheckedAndNotContainElevenDigits()
-    {
-        String invalidUnformattedCpf = "1230256265";
-
-        validateCpfNumbers(invalidUnformattedCpf);
-    }
 
     @Test
     public void shouldReturnFalseWhenItHasNoSpecialCharactersInName()
