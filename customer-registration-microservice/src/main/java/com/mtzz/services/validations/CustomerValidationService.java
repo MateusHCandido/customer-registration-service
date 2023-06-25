@@ -2,7 +2,6 @@ package com.mtzz.services.validations;
 
 import com.mtzz.datas.repositories.impl.CustomerImpl;
 import com.mtzz.services.exceptions.CPFAlreadyRegisteredException;
-import com.mtzz.services.exceptions.RepeatedNumberException;
 import com.mtzz.services.exceptions.InvalidNumberCountException;
 import com.mtzz.services.exceptions.SpecialCharactersOrNumbersException;
 import com.mtzz.services.utils.CPFUtil;
@@ -37,21 +36,6 @@ public class CustomerValidationService
             return true;
         }
         throw new CPFAlreadyRegisteredException();
-    }
-
-    public static boolean validateCpfNumbers(String cpfSent)
-    {
-        cpfSent = cpfSent.replaceAll("[^0-9]", "");
-
-        if (cpfSent.length() != 11) {
-            throw new InvalidNumberCountException();
-        }
-
-        if(cpfSent.matches("(\\d)\\1{10}"))
-        {
-            throw new RepeatedNumberException();
-        }
-        return true;
     }
 
 }

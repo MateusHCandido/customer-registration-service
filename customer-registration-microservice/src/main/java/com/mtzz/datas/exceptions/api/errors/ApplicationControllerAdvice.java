@@ -1,5 +1,8 @@
 package com.mtzz.datas.exceptions.api.errors;
 
+import com.mtzz.services.exceptions.CPFAlreadyRegisteredException;
+import com.mtzz.services.exceptions.InvalidNumberCountException;
+import com.mtzz.services.exceptions.SpecialCharactersOrNumbersException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +21,8 @@ public class ApplicationControllerAdvice
 {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrors handleValidationErrors(MethodArgumentNotValidException exception){
+    public ApiErrors handleValidationErrors(MethodArgumentNotValidException exception)
+    {
         BindingResult bindingResult = exception.getBindingResult();
         List<String> messages = bindingResult.getAllErrors()
                 .stream()
@@ -26,8 +31,29 @@ public class ApplicationControllerAdvice
         return new ApiErrors(messages);
     }
 
+    @ExceptionHandler(CPFAlreadyRegisteredException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity CPFAlreadyRegisteredException(CPFAlreadyRegisteredException exception)
+    {
+        String errorMessage = exception.getReason();
+        HttpStatus statusCode = exception.getStatus();
+        ApiErrors apiErrors = new ApiErrors(errorMessage);
+        return new ResponseEntity(apiErrors, statusCode);
+    }
+
+    @ExceptionHandler(SpecialCharactersOrNumbersException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity SpecialCharactersOrNumbersException(SpecialCharactersOrNumbersException exception)
+    {
+        String errorMessage = exception.getReason();
+        HttpStatus statusCode = exception.getStatus();
+        ApiErrors apiErrors = new ApiErrors(errorMessage);
+        return new ResponseEntity(apiErrors, statusCode);
+    }
+
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity handleResponseStatusException(ResponseStatusException exception){
+    public ResponseEntity handleResponseStatusException(ResponseStatusException exception)
+    {
         String errorMessage = exception.getReason();
         HttpStatus statusCode = exception.getStatus();
         ApiErrors apiErrors = new ApiErrors(errorMessage);

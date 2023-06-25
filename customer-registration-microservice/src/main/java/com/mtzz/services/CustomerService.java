@@ -33,7 +33,7 @@ public class CustomerService
 
         if(!checkOnlyExistenceOfLettersIn(customerName))
         {
-            if(customerValidationService.hasNoOccurrenceOf(customerCpf) && validateCpfNumbers(customerCpf))
+            if(customerValidationService.hasNoOccurrenceOf(customerCpf))
             {
                 customerImpl.saveCustomer(CustomerMapper.receiveFrom(customer, customerRequest));
             }
@@ -51,12 +51,12 @@ public class CustomerService
     {
         Customer customer = customerImpl.findById(customerId);
 
-        String customerName = customerRequest.getCustomerName();
-        String customerCpf = customerRequest.getCpf();
+        String newName = customerRequest.getCustomerName();
+        String newCpf = customerRequest.getCpf();
 
-        if(!checkOnlyExistenceOfLettersIn(customerName))
+        if(!checkOnlyExistenceOfLettersIn(newName))
         {
-            if(customerValidationService.hasNoOccurrenceOf(customerCpf) && validateCpfNumbers(customerCpf))
+            if(customerValidationService.hasNoOccurrenceOf(newCpf))
             {
                 customerImpl.saveCustomer(CustomerMapper.receiveFrom(customer, customerRequest));
             }
