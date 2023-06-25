@@ -5,7 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TemplateModule } from './template/template.module';
 import { HomeComponent } from './home/home.component';
-import { FooterComponent } from './footer/footer.component';
+import { FooterComponent } from './template/footer/footer.component';
+import { CustomersModule } from './customers/customers.module';
+import { ServicesModule } from './services/services.module';
+
 
 @NgModule({
   declarations: [
@@ -16,8 +19,11 @@ import { FooterComponent } from './footer/footer.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    TemplateModule
+    TemplateModule,
+    CustomersModule,
+    ServicesModule
   ],
+
   providers: [],
   bootstrap: [AppComponent]
 })

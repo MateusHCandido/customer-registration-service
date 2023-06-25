@@ -1,0 +1,30 @@
+<h1 class="mt-4">Customers</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Register your customers</li>
+</ol>
+<div class="container">
+    <form #customerForm="ngForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Name: *</label>
+                        <input type="text" class="form-control"  [(ngModel)]="customer.customerName" name="customerName">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>CPF: *</label>
+                        <input type="text" class="form-control" [(ngModel)]="customer.cpf" name="cpf">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <i class="fa fa-save"></i>
+                    </div>
+                </div>
+        </div>
+        
+    </form>
+</div>
