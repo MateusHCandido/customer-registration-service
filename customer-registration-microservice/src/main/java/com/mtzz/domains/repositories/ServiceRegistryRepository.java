@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ServiceRecordRepository extends JpaRepository<ServiceRegistry, Long>
+public interface ServiceRegistryRepository extends JpaRepository<ServiceRegistry, Long>
 {
     @Query(
             "SELECT service FROM ServiceRegistry service JOIN service.customer customer "
