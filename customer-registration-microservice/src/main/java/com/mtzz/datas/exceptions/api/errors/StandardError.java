@@ -1,4 +1,4 @@
-package com.mtzz.datas.exceptions;
+package com.mtzz.datas.exceptions.api.errors;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

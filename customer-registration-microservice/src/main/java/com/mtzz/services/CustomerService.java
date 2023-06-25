@@ -9,7 +9,6 @@ import com.mtzz.services.validations.CustomerValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 
 import static com.mtzz.services.validations.CustomerValidationService.*;
 

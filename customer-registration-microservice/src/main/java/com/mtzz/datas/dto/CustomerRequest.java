@@ -16,12 +16,12 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class CustomerRequest
 {
-    @NotEmpty(message = "the customer name field is mandatory")
+    @NotEmpty(message = "The name field is mandatory.")
     @Column(name = "customer_name", nullable = false, length = 150)
     private String customerName;
 
-    @NotNull(message = "the customer cpf is mandatory")
-    @CPF(message = "the customer cpf is invalid. verify field and try again")
+    @NotNull(message = "The CPF field is mandatory.")
+    @CPF(message = "CPF is invalid.")
     private String cpf;
 
 
