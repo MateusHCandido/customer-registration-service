@@ -1,6 +1,6 @@
 package com.mtzz.datas.repositories.impl;
 
-import com.mtzz.domains.models.ServiceRecord;
+import com.mtzz.domains.models.ServiceRegistry;
 import com.mtzz.domains.repositories.ServiceRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -8,18 +8,18 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ServiceRecordImpl
+public class ServiceRegistryImpl
 {
     @Autowired
     private ServiceRecordRepository serviceRecordRepository;
 
 
-    public void save(ServiceRecord serviceRecord)
+    public void save(ServiceRegistry serviceRecord)
     {
         serviceRecordRepository.save(serviceRecord);
     }
 
-    public List<ServiceRecord> findByCustomerNameAndMonth(String name, Integer month)
+    public List<ServiceRegistry> findByCustomerNameAndMonth(String name, Integer month)
     {
         return serviceRecordRepository.findByCustomerNameAndMonth(name, month);
     }

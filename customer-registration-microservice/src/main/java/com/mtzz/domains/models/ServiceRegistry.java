@@ -1,7 +1,6 @@
 package com.mtzz.domains.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mtzz.domains.models.Customer;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,7 +9,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-public class ServiceRecord
+public class ServiceRegistry
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
