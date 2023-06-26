@@ -1,6 +1,8 @@
 package com.mtzz.datas.exceptions.api.errors;
 
+import com.mtzz.datas.exceptions.CustomerNotFoundException;
 import com.mtzz.services.exceptions.CPFAlreadyRegisteredException;
+import com.mtzz.services.exceptions.EmptyListException;
 import com.mtzz.services.exceptions.InvalidNumberCountException;
 import com.mtzz.services.exceptions.SpecialCharactersOrNumbersException;
 import org.springframework.http.HttpStatus;
@@ -31,9 +33,39 @@ public class ApplicationControllerAdvice
         return new ApiErrors(messages);
     }
 
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity handleResponseStatusException(ResponseStatusException exception)
+    {
+        String errorMessage = exception.getReason();
+        HttpStatus statusCode = exception.getStatus();
+        ApiErrors apiErrors = new ApiErrors(errorMessage);
+        return new ResponseEntity(apiErrors, statusCode);
+    }
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity customerNotFoundException(CustomerNotFoundException exception)
+    {
+        String errorMessage = exception.getReason();
+        HttpStatus statusCode = exception.getStatus();
+        ApiErrors apiErrors = new ApiErrors(errorMessage);
+        return new ResponseEntity(apiErrors, statusCode);
+    }
+
+    @ExceptionHandler(EmptyListException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity emptyListException(EmptyListException exception)
+    {
+        String errorMessage = exception.getReason();
+        HttpStatus statusCode = exception.getStatus();
+        ApiErrors apiErrors = new ApiErrors(errorMessage);
+        return new ResponseEntity(apiErrors, statusCode);
+    }
+
+
     @ExceptionHandler(CPFAlreadyRegisteredException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity CPFAlreadyRegisteredException(CPFAlreadyRegisteredException exception)
+    public ResponseEntity cpfAlreadyRegisteredException(CPFAlreadyRegisteredException exception)
     {
         String errorMessage = exception.getReason();
         HttpStatus statusCode = exception.getStatus();
@@ -43,7 +75,7 @@ public class ApplicationControllerAdvice
 
     @ExceptionHandler(SpecialCharactersOrNumbersException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity SpecialCharactersOrNumbersException(SpecialCharactersOrNumbersException exception)
+    public ResponseEntity specialCharactersOrNumbersException(SpecialCharactersOrNumbersException exception)
     {
         String errorMessage = exception.getReason();
         HttpStatus statusCode = exception.getStatus();
@@ -51,12 +83,5 @@ public class ApplicationControllerAdvice
         return new ResponseEntity(apiErrors, statusCode);
     }
 
-    @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity handleResponseStatusException(ResponseStatusException exception)
-    {
-        String errorMessage = exception.getReason();
-        HttpStatus statusCode = exception.getStatus();
-        ApiErrors apiErrors = new ApiErrors(errorMessage);
-        return new ResponseEntity(apiErrors, statusCode);
-    }
+
 }

@@ -2,13 +2,17 @@ package com.mtzz.services;
 
 import com.mtzz.datas.dto.CustomerRequest;
 import com.mtzz.datas.dto.CustomerResponse;
+import com.mtzz.datas.exceptions.CustomerNotFoundException;
 import com.mtzz.datas.mappers.CustomerMapper;
 import com.mtzz.datas.repositories.impl.CustomerImpl;
 import com.mtzz.domains.models.Customer;
+import com.mtzz.services.exceptions.EmptyListException;
 import com.mtzz.services.validations.CustomerValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import java.util.List;
 
 import static com.mtzz.services.validations.CustomerValidationService.*;
 
@@ -68,5 +72,33 @@ public class CustomerService
         Customer customer= customerImpl.findById(customerId);
 
         customerImpl.deleteCustomerDate(customer);
+    }
+
+    public Object findAllCustomer()
+    {
+        List<Customer> customersRegistered = customerImpl.findAllCustomer();
+
+        if(customersRegistered.isEmpty())
+        {
+            throw new EmptyListException();
+        }
+        return customersRegistered;
+    }
+
+    public List<Customer> findAllByName(String customerName)
+    {
+        List<Customer> customerRegistered = customerImpl.findAllByName(customerName);
+
+        if(customerRegistered.isEmpty())
+        {
+            throw new EmptyListException();
+        }
+
+        return  customerRegistered;
+    }
+
+    public Customer findByCpf(String cpf)
+    {
+        return customerImpl.findByCpf(cpf);
     }
 }
