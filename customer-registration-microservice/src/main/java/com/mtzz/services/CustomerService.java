@@ -74,7 +74,7 @@ public class CustomerService
         customerImpl.deleteCustomerDate(customer);
     }
 
-    public Object findAllCustomer()
+    public List<Customer> findAllCustomer()
     {
         List<Customer> customersRegistered = customerImpl.findAllCustomer();
 
